@@ -8,12 +8,14 @@ use Illuminate\Http\Request;
 use App\User;
 use Validator;
 
+use App\Access;
+
 class UserController extends Controller
 {
     public function login(){ 
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
                 $user = Auth::user(); 
-                $success['token'] =  $user->createToken('MyApp')-> accessToken; 
+                $success['token'] =  $user->createToken('MyApp')->accessToken; 
                 return response()->json(['success' => $success], 200);
             } 
             else{ 
@@ -142,15 +144,20 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
-        return response()->json([
-            'message' => auth()->user()->token()
+        // Auth::logout();
+        // return response()->json([
+        //     'message' => auth()->user()->token()
             
-        ]);
+        // ]);
         // $token = request('token');
-        // if(Auth::check() && Auth::user()->token() == $token){
-        //     Auth::user()->token()->revoke();
-        // }
+        // $token_id = $token->id;
+        if (Auth::check()) {
+            Auth::user()->AauthAcessToken()->revoke();
+            Auth::logout();
+            return response()->json([
+                'message' => "Successfully log out"
+            ]);
+        }
     }
 }
 
