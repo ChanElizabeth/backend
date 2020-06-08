@@ -151,8 +151,7 @@ class UserController extends Controller
         ]);
         // $token = request('token');
         // $token_id = $token->id;
-        // $user = 
-        // if(Auth::check() && $user){
+        // if(Auth::check() && Access::find($token_id)){
         //     Auth::user()->accessToken()->revoke();
         // }
         
