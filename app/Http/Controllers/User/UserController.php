@@ -144,7 +144,7 @@ class UserController extends Controller
     {
         Auth::logout();
         return response()->json([
-            'message' => $request->user()->token()
+            'message' => auth()->user()->token()
             
         ]);
         // $token = request('token');
