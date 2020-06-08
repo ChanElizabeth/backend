@@ -40,6 +40,30 @@ class UserController extends Controller
         }    
     }
 
+    /** 
+     * Register api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function register(Request $request) 
+    { 
+        $validator = Validator::make($request->all(), [ 
+            'name' => 'required', 
+            'email' => 'required|email', 
+            'password' => 'required', 
+            'c_password' => 'required|same:password', 
+        ]);
+        if ($validator->fails()) { 
+                    return response()->json(['error'=>$validator->errors()], 401);            
+                }
+        $input = $request->all(); 
+                $input['password'] = bcrypt($input['password']); 
+                $user = User::create($input); 
+                $success['token'] =  $user->createToken('MyApp')-> accessToken; 
+                $success['name'] =  $user->name;
+        return response()->json(['success'=>$success], $this-> successStatus); 
+    }
+
     public function index()
     {
         $user = User::all();
@@ -118,21 +142,10 @@ class UserController extends Controller
 
     public function logout()
     {
-        // $request->user()->token()->revoke();
-        $user = Auth::user()->token();
-        $user->revoke();
+        Auth::logout();
         return response()->json([
             'message' => 'Successfully logged out'
         ]);
-
-        // $accessToken = Auth::user()->token();
-        //     $token= $request->user()->tokens->find($accessToken);
-        //     $token->revoke();
-        //     $response=array();
-        //     $response['status']=1;
-        //     $response['statuscode']=200;
-        //     $response['msg']="Successfully logout";
-        //     return response()->json($response)->header('Content-Type', 'application/json');
     }
 }
 
