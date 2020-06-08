@@ -147,10 +147,10 @@ class UserController extends Controller
             'message' => Auth::user()->token()
             
         ]);
-        $token = request('token');
-        if(Auth::check() && Auth::user()->token() == $token){
-            Auth::user()->token()->revoke();
-        }
+        // $token = request('token');
+        // if(Auth::check() && Auth::user()->token() == $token){
+        //     Auth::user()->token()->revoke();
+        // }
     }
 }
 
