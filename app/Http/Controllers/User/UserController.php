@@ -145,17 +145,17 @@ class UserController extends Controller
     public function logout(Request $request)
     {
         $token = request('token');
-        $token_id = $token->id;
-        $access = Access::find($token_id);
-        $access->revoked = '1';
-        $access->save();
-        if(Auth::check()){
-            $access->token()->revoke();
+        if(Auth::check() && Auth::user()->token() == $token){
+            Auth::user()->token()->revoke();
+            Auth::logout();
+            return response()->json([
+                'message' =>  'Successfully log out'
+            ]);
         }
-        Auth::logout();
-        return response()->json([
-            'message' =>  $access
-        ]);
+        // Auth::logout();
+        // return response()->json([
+        //     'message' =>  'Successfully log out'
+        // ]);
     }
 }
 
