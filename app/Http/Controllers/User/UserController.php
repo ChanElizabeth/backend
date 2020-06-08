@@ -145,12 +145,12 @@ class UserController extends Controller
         $token = request('token');
         if(Auth::check() && Auth::user()->accessToken == $token){
             Auth::user()->accessToken->revoke();
-            Auth::logout();
-            return response()->json([
-                'message' => 'Successfully logged out'
-                
-            ]);
         }
+        Auth::logout();
+        return response()->json([
+            'message' => 'Successfully logged out'
+            
+        ]);
     }
 }
 
