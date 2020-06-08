@@ -142,15 +142,15 @@ class UserController extends Controller
 
     public function logout()
     {
+        Auth::logout();
+        return response()->json([
+            'message' => Auth::user()->accessToken
+            
+        ]);
         $token = request('token');
         if(Auth::check() && Auth::user()->accessToken == $token){
             Auth::user()->accessToken->revoke();
         }
-        Auth::logout();
-        return response()->json([
-            'message' => $token
-            
-        ]);
     }
 }
 
