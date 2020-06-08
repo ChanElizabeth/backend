@@ -143,7 +143,7 @@ class UserController extends Controller
     public function logout()
     {
         $user = Auth::user();
-        $user->accessToken->revoke();
+        $user->token->revoke();
         Auth::logout();
         return response()->json([
             'message' => 'Successfully logged out'
