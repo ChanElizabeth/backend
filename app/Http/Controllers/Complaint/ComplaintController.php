@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\ComplaintModel;
 use Validator;
 
-
+// Controller for complaint
 class ComplaintController extends Controller
 {
     /**

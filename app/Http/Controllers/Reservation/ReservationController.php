@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\ReservationModel;
 use Validator;
 
+// Reservation for controller
 class ReservationController extends Controller
 {
         /**

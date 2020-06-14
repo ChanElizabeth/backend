@@ -28,8 +28,6 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::resource('user', 'User\UserController');
 });
 
-// Route::resource('us', 'User\UserController');
-
 Route::resource('new', 'News\NewsController');
 
 Route::resource('complaint', 'Complaint\ComplaintController');

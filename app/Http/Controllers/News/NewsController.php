@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\NewsModel;
 use Validator;
 
+// Controller for news displayed in home page and written by Admin 
 class NewsController extends Controller
 {
     /**

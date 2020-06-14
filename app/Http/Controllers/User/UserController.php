@@ -10,6 +10,7 @@ use Validator;
 
 use App\Access;
 
+// User controller
 class UserController extends Controller
 {
     public function login(){ 
@@ -40,30 +41,6 @@ class UserController extends Controller
             return response()->json(['error'=> 'Unauthorized'], 401); 
 
         }    
-    }
-
-    /** 
-     * Register api 
-     * 
-     * @return \Illuminate\Http\Response 
-     */ 
-    public function register(Request $request) 
-    { 
-        $validator = Validator::make($request->all(), [ 
-            'name' => 'required', 
-            'email' => 'required|email', 
-            'password' => 'required', 
-            'c_password' => 'required|same:password', 
-        ]);
-        if ($validator->fails()) { 
-                    return response()->json(['error'=>$validator->errors()], 401);            
-                }
-        $input = $request->all(); 
-                $input['password'] = bcrypt($input['password']); 
-                $user = User::create($input); 
-                $success['token'] =  $user->createToken('MyApp')-> accessToken; 
-                $success['name'] =  $user->name;
-        return response()->json(['success'=>$success], $this-> successStatus); 
     }
 
     public function index()
@@ -147,15 +124,11 @@ class UserController extends Controller
         $token = request('token');
         if(Auth::check() && Auth::user()->token() == $token){
             Auth::user()->token()->revoke();
-            Auth::logout();
-            return response()->json([
-                'message' =>  'Successfully log out'
-            ]);
         }
-        // Auth::logout();
-        // return response()->json([
-        //     'message' =>  'Successfully log out'
-        // ]);
+        Auth::logout();
+        return response()->json([
+            'message' =>  'Successfully log out'
+        ]);
     }
 }
 
